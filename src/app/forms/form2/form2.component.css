@@ -1,0 +1,26 @@
+li button {
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  color: #721c24;
+}
+
+.required {
+  color: #721c24;
+}
+
+.btn-primary {
+  background-color: aquamarine !important;
+  color: #212529;
+  border-color: #212529;
+}
+
+.card-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.bg-success {
+  background-color: lightgreen !important;
+}

@@ -1,0 +1,94 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" role="navigation">
+  <svg
+    aria-hidden="true"
+    width="30"
+    height="30"
+    xmlns="http://www.w3.org/2000/svg"
+    style="background-color: transparent;"
+    fill="aquamarine"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+  >
+    <path
+      d="M11.978 17c-.948.011-1.529.896-1.978 1.608-.965 1.535-2.01 3.161-2.909 4.529-.312.475-.65.859-1.219.863-.57.004-1.052-.685-.777-1.265.731-1.539 3.905-7.077 3.905-11.735 0-1.613-.858-2-2-2h-4c-.552 0-1-.448-1-1s.448-1 1-1h18c.553 0 1 .449 1 1 0 .551-.447 1-1 1h-4c-1.141 0-2 .387-2 2 0 4.658 3.175 10.196 3.906 11.735.275.58-.207 1.269-.777 1.265-.569-.004-.908-.388-1.219-.863-.899-1.368-1.944-2.994-2.91-4.529-.451-.717-1.038-1.611-2-1.608h-.022zm.022-17c1.657 0 3 1.344 3 3s-1.343 3-3 3c-1.655 0-3-1.344-3-3s1.345-3 3-3"
+    />
+  </svg>
+  <span class="navbar-brand">Angular A11y Sandbox</span>
+  <button
+    class="navbar-toggler hidden-sm-up"
+    type="button"
+    (click)="isNavbarCollapsed = !isNavbarCollapsed"
+    (keyup.escape)="isNavbarCollapsed = true"
+    data-target="#navbarsDefault"
+    aria-controls="navbarsDefault"
+    [attr.aria-expanded]="!isNavbarCollapsed"
+    aria-label="Toggle navigation"
+  >
+    Menu
+  </button>
+  <div
+    [ngbCollapse]="isNavbarCollapsed"
+    class="collapse navbar-collapse"
+    id="navbarsDefault"
+  >
+    <ul class="navbar-nav mr-auto" (keyup.escape)="isNavbarCollapsed = true">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/home"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          #navItem1="routerLinkActive"
+          [attr.aria-current]="navItem1.isActive ? 'page' : undefined"
+          (click)="
+            isNavbarCollapsed = !isNavbarCollapsed;
+            setTitle('Home - A11y Tester')
+          "
+          >Home</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/forms"
+          routerLinkActive="active"
+          #navItem2="routerLinkActive"
+          [attr.aria-current]="navItem2.isActive ? 'page' : undefined"
+          (click)="
+            isNavbarCollapsed = !isNavbarCollapsed;
+            setTitle('Forms - A11y Tester')
+          "
+          >Forms</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/contact"
+          routerLinkActive="active"
+          #navItem3="routerLinkActive"
+          [attr.aria-current]="navItem3.isActive ? 'page' : undefined"
+          (click)="
+            isNavbarCollapsed = !isNavbarCollapsed;
+            setTitle('Contact - A11y Tester')
+          "
+          >Contact</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/signin"
+          routerLinkActive="active"
+          #navItem4="routerLinkActive"
+          [attr.aria-current]="navItem4.isActive ? 'page' : undefined"
+          (click)="
+            isNavbarCollapsed = !isNavbarCollapsed;
+            setTitle('Sign-in - A11y Tester')
+          "
+          >Sign-in</a
+        >
+      </li>
+    </ul>
+  </div>
+</nav>

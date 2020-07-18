@@ -1,114 +1,141 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <fieldset formGroupName="name">
-    <legend>Legal Name</legend>
-    <label for="first">First Name</label>
-    <input formControlName="first" id="first" />
-
-    <label for="last">Last Name</label>
-    <input formControlName="last" id="last" />
-  </fieldset>
-
-  <fieldset formGroupName="contact">
-    <legend>Contact Information</legend>
-    <label for="email" id="email-label">Email (required)</label>
-    <input
-      [attr.aria-invalid]="emailIsInvalidAndTouched"
-      formControlName="email"
-      #emailRef
-      id="email"
-      type="email"
-      required
-    />
-
-    <div
-      *ngIf="emailIsInvalidAndTouched"
-      role="alert"
-      aria-describedby="email-label"
-      tabindex="0"
-      class="error"
-    >
-      Please enter a valid email address.
-    </div>
-
-    <label for="phone">Phone Number</label>
-    <input formControlName="phone" id="phone" />
-  </fieldset>
-
-  <fieldset formGroupName="password">
-    <legend>Account Information</legend>
-    <label for="password" id="password-label">Password (required)</label>
-    <input
-      [attr.aria-invalid]="passwordIsInvalidAndTouched"
-      formControlName="password"
-      #passwordRef
-      id="password"
-      type="password"
-      required
-    />
-    <div
-      *ngIf="passwordIsInvalidAndTouched"
-      role="alert"
-      aria-describedby="password-label"
-      class="error"
-    >
-      Password must be at least 6 characters.
-    </div>
-
-    <label for="confirm" id="confirm-label">Confirm Password (required)</label>
-    <input
-      formControlName="confirm"
-      id="confirm"
-      #confirmRef
-      type="password"
-      required
-    />
-
-    <div
-      *ngIf="passwordsDoNotMatchAndTouched"
-      role="alert"
-      aria-describedby="confirm-label"
-      tabindex="0"
-      class="error"
-    >
-      Passwords must match.
-    </div>
-  </fieldset>
-
-  <div
-    *ngIf="this.form.invalid && formStatus === FormStatus.Error"
-    role="alert"
-    class="status-error"
-  >
-    The form has the following errors that need to be corrected:
-
-    <button (click)="emailRef.focus()" *ngIf="emailIsInvalid">
-      Please enter a valid email address.
-    </button>
-
-    <button (click)="passwordRef.focus()" *ngIf="passwordIsInvalid">
-      Password must be at least 6 characters.
-    </button>
-
-    <button (click)="confirmRef.focus()" *ngIf="passwordsDoNotMatch">
-      Passwords must match.
-    </button>
+<!-- main app container -->
+<div class="card">
+  <h2 class="card-header">Basic Reactive Form Validation using ARIA</h2>
+  <div class="card-body">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <!-- <div class="form-group col"> -->
+        <!-- <label>Title</label>
+          <select
+            formControlName="title"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.title.errors }"
+          >
+            <option value=""></option>
+            <option value="Mr">Mr</option>
+            <option value="Mrs">Mrs</option>
+            <option value="Miss">Miss</option>
+            <option value="Ms">Ms</option>
+          </select>
+          <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+            <div *ngIf="f.title.errors.required">Title is required</div>
+          </div>
+        </div> -->
+        <div class="form-group col">
+          <label for="f-name">First Name</label>
+          <input
+            type="text"
+            formControlName="firstName"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"
+            id="f-name"
+            aria-describedby="fname-error"
+            aria-required="true"
+          />
+          <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+            <div id="fname-error" *ngIf="f.firstName.errors.required">
+              First Name is required
+            </div>
+          </div>
+        </div>
+        <div class="form-group col">
+          <label for="l-name">Last Name</label>
+          <input
+            type="text"
+            formControlName="lastName"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"
+            id="l-name"
+            aria-describedby="lname-error"
+            aria-required="true"
+          />
+          <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+            <div id="lname-error" *ngIf="f.lastName.errors.required">
+              Last Name is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="e-mail">Email</label>
+        <input
+          type="text"
+          formControlName="email"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+          id="e-mail"
+          aria-required="true"
+        />
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+          <div *ngIf="f.email.errors.required">Email is required</div>
+          <div *ngIf="f.email.errors.email">
+            Email must be a valid email address
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col">
+          <label for="p-word">Password</label>
+          <input
+            type="password"
+            formControlName="password"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+            id="p-word"
+            aria-required="true"
+          />
+          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+            <div *ngIf="f.password.errors.minlength">
+              Password must be at least 6 characters
+            </div>
+          </div>
+        </div>
+        <div class="form-group col">
+          <label for="confirm-pword">Confirm Password</label>
+          <input
+            type="password"
+            formControlName="confirmPassword"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
+            id="confirm-pword"
+            aria-required="true"
+          />
+          <div
+            *ngIf="submitted && f.confirmPassword.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.confirmPassword.errors.required">
+              Confirm Password is required
+            </div>
+            <div *ngIf="f.confirmPassword.errors.mustMatch">
+              Passwords must match
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-check">
+        <input
+          type="checkbox"
+          formControlName="acceptTerms"
+          id="accept-terms"
+          class="form-check-input"
+          [ngClass]="{ 'is-invalid': submitted && f.acceptTerms.errors }"
+          aria-required="true"
+        />
+        <label for="accept-terms" class="form-check-label"
+          >Accept Terms & Conditions</label
+        >
+        <div *ngIf="submitted && f.acceptTerms.errors" class="invalid-feedback">
+          You must accept the Terms & Conditions to register with us.
+        </div>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary mr-1">Register</button>
+        <button class="btn btn-secondary" type="reset" (click)="onReset()">
+          Reset
+        </button>
+      </div>
+    </form>
   </div>
-
-  <div
-    *ngIf="formStatus === FormStatus.Pending"
-    role="status"
-    class="status-pending"
-  >
-    Saving profile
-  </div>
-
-  <div
-    *ngIf="formStatus === FormStatus.Success"
-    role="status"
-    class="status-success"
-  >
-    Profile successfully created
-  </div>
-
-  <button>Create Account</button>
-</form>
+</div>

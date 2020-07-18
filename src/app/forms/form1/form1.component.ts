@@ -1,84 +1,86 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
+import { Component, OnInit, ElementRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
-export enum FormStatus {
-  Initial,
-  Success,
-  Pending,
-  Error
-}
+
+// import custom validator to validate that password and confirm password fields match
+import { MustMatch } from './must-match.validator';
 
 @Component({
   selector: 'app-form1',
   templateUrl: './form1.component.html',
   styleUrls: ['./form1.component.css']
 })
-export class Form1Component {
-  readonly FormStatus = FormStatus;
-  formStatus = FormStatus.Initial;
+export class Form1Component implements OnInit {
+  registerForm: FormGroup;
+  submitted = false;
 
-  form = new FormGroup({
-    name: new FormGroup({
-      first: new FormControl(''),
-      last: new FormControl('')
-    }),
-    contact: new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('')
-    }),
-    password: new FormGroup({
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      confirm: new FormControl('', Validators.required)
-    }, matchingInputsValidator('password', 'confirm', 'mismatch'))
-  });
+  constructor(
+    private formBuilder: FormBuilder,
+    private announcer: LiveAnnouncer,
+    private el: ElementRef
+  ) { }
 
-  // Be careful when using get() properties as they are called multiple time per change detection cycle
-  // Make sure whatever work is in the get() is nothing more than what you would have in the template
-  // Example putting a async http call in the get() would cause several http requests in the matter of seconds hurting performance
-  get emailIsInvalid() {
-    return (this.form.controls.contact as FormGroup).controls.email.invalid;
+  ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      // title: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+      acceptTerms: [false, Validators.requiredTrue]
+    }, {
+      validator: MustMatch('password', 'confirmPassword')
+    });
   }
 
-  get emailIsInvalidAndTouched() {
-    return this.emailIsInvalid && (this.form.controls.contact as FormGroup).controls.email.touched;
-  }
+  // convenience getter for easy access to form fields
+  get f() { return this.registerForm.controls; }
 
-  get passwordIsInvalid() {
-    return (this.form.controls.password as FormGroup).controls.password.invalid;
-  }
+  onSubmit() {
+    this.submitted = true;
+    // const invalidElements = this.el.nativeElement.querySelectorAll('.ng-invalid');
+    // if (invalidElements.length > 0) {
+    //   console.log(invalidElements[0]);
+    //   invalidElements[0].focus();
+    // }
 
-  get passwordIsInvalidAndTouched() {
-    return this.passwordIsInvalid && (this.form.controls.password as FormGroup).controls.password.touched;
-  }
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      // setTimeout(() => {
+      //   this.announcer.announce(
+      //     'Oops, there are errors on this page. Focus moved to first error.',
+      //     'polite');
+      // }, 500);
 
-  get passwordsDoNotMatch() {
-    return this.form.controls.password.errors && this.form.controls.password.errors.mismatch;
-  }
+      // setTimeout(() => {
+      //   const firstInvalid = this.el.nativeElement.querySelector('.ng-invalid')[0];
+      //   firstInvalid.focus();
+      // }, 500);
 
-  get passwordsDoNotMatchAndTouched() {
-    return this.passwordsDoNotMatch && (this.form.controls.password as FormGroup).controls.confirm.touched;
-  }
+      const invalidFields = [].slice.call(this.el.nativeElement.getElementsByClassName('ng-invalid'));
+      invalidFields[1].focus();
 
-  submit() {
-    this.formStatus = FormStatus.Pending;
+      const numErrors = invalidFields.length - 1;
 
-    if (this.form.valid) {
-      setTimeout(() => { // simulate a async http call
-        this.formStatus = FormStatus.Success;
-        console.log(this.form.value);
-      }, 3000);
-    } else {
-      this.formStatus = FormStatus.Error;
+      setTimeout(() => {
+        this.announcer.announce(
+          'There are' + numErrors + 'fields in errors on this page. Focus moved to first error.',
+          'polite');
+      }, 500);
+
+
+      return;
     }
-  }
-}
 
-export function matchingInputsValidator(firstKey: string, secondKey: string, errorName: string) {
-  return (group: FormGroup): ValidationErrors | undefined => {
-    if (group.controls[firstKey].value !== group.controls[secondKey].value) {
-      return {
-        [errorName]: true
-      };
-    }
-  };
+    // display form values on success
+    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value, null, 4));
+
+  }
+
+  onReset() {
+    this.submitted = false;
+    this.registerForm.reset();
+  }
 }

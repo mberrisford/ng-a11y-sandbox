@@ -2,7 +2,6 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
-
 // import custom validator to validate that password and confirm password fields match
 import { MustMatch } from './must-match.validator';
 
@@ -14,6 +13,9 @@ import { MustMatch } from './must-match.validator';
 export class Form1Component implements OnInit {
   registerForm: FormGroup;
   submitted = false;
+  showSuccess = false;
+  showWarning = false;
+  numErrors = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,47 +42,30 @@ export class Form1Component implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    // const invalidElements = this.el.nativeElement.querySelectorAll('.ng-invalid');
-    // if (invalidElements.length > 0) {
-    //   console.log(invalidElements[0]);
-    //   invalidElements[0].focus();
-    // }
 
     // stop here if form is invalid
     if (this.registerForm.invalid) {
-      // setTimeout(() => {
-      //   this.announcer.announce(
-      //     'Oops, there are errors on this page. Focus moved to first error.',
-      //     'polite');
-      // }, 500);
-
-      // setTimeout(() => {
-      //   const firstInvalid = this.el.nativeElement.querySelector('.ng-invalid')[0];
-      //   firstInvalid.focus();
-      // }, 500);
-
       const invalidFields = [].slice.call(this.el.nativeElement.getElementsByClassName('ng-invalid'));
       invalidFields[1].focus();
 
-      const numErrors = invalidFields.length - 1;
+      this.numErrors = invalidFields.length - 1;
 
       setTimeout(() => {
         this.announcer.announce(
-          'There are' + numErrors + 'fields in errors on this page. Focus moved to first error.',
-          'polite');
+          'Focus moved to first error.', 'polite');
       }, 500);
 
-
+      this.showWarning = true;
       return;
     }
-
     // display form values on success
-    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value, null, 4));
-
+    this.showSuccess = true;
   }
 
   onReset() {
     this.submitted = false;
+    this.showWarning = false;
+    this.showSuccess = false;
     this.registerForm.reset();
   }
 }

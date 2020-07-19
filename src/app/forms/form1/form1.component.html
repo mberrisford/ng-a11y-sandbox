@@ -1,73 +1,130 @@
-<!-- main app container -->
+<p>
+  In this example registration form, validation is first performed after the
+  user has had a first crack at it. Afterwards, reactive validation occurs.
+</p>
 <div class="card">
-  <h2 class="card-header">Basic Reactive Form Validation using ARIA</h2>
+  <h2 id="form-heading" class="card-header">Reactive Form with Validation</h2>
   <div class="card-body">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="form-row">
-        <!-- <div class="form-group col"> -->
-        <!-- <label>Title</label>
-          <select
-            formControlName="title"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.title.errors }"
-          >
-            <option value=""></option>
-            <option value="Mr">Mr</option>
-            <option value="Mrs">Mrs</option>
-            <option value="Miss">Miss</option>
-            <option value="Ms">Ms</option>
-          </select>
-          <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
-            <div *ngIf="f.title.errors.required">Title is required</div>
-          </div>
-        </div> -->
-        <div class="form-group col">
-          <label for="f-name">First Name</label>
-          <input
-            type="text"
-            formControlName="firstName"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"
-            id="f-name"
-            aria-describedby="fname-error"
-            aria-required="true"
+    <p aria-live="polite" aria-atomic="true">
+      <ngb-alert *ngIf="showSuccess" type="success" [dismissible]="false">
+        <svg
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 30"
+          fill="#155724"
+          focusable="false"
+        >
+          <path
+            d="M21.406 9.558c-1.21-.051-2.87-.278-3.977-.744.809-3.283 1.253-8.814-2.196-8.814-1.861 0-2.351 1.668-2.833 3.329-1.548 5.336-3.946 6.816-6.4 7.401v-.73h-6v12h6v-.904c2.378.228 4.119.864 6.169 1.746 1.257.541 3.053 1.158 5.336 1.158 2.538 0 4.295-.997 5.009-3.686.5-1.877 1.486-7.25 1.486-8.25 0-1.648-1.168-2.446-2.594-2.506zm-17.406 10.442h-2v-8h2v8zm15.896-5.583s.201.01 1.069-.027c1.082-.046 1.051 1.469.004 1.563l-1.761.099c-.734.094-.656 1.203.141 1.172 0 0 .686-.017 1.143-.041 1.068-.056 1.016 1.429.04 1.551-.424.053-1.745.115-1.745.115-.811.072-.706 1.235.109 1.141l.771-.031c.822-.074 1.003.825-.292 1.661-1.567.881-4.685.131-6.416-.614-2.239-.965-4.438-1.934-6.959-2.006v-6c3.264-.749 6.328-2.254 8.321-9.113.898-3.092 1.679-1.931 1.679.574 0 2.071-.49 3.786-.921 5.533 1.061.543 3.371 1.402 6.12 1.556 1.055.059 1.024 1.455-.051 1.584l-1.394.167s-.608 1.111.142 1.116z"
           />
-          <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-            <div id="fname-error" *ngIf="f.firstName.errors.required">
-              First Name is required
+        </svg>
+        <strong> Success!</strong> Check your email to confirm your
+        registration.
+      </ngb-alert>
+      <ngb-alert *ngIf="showWarning" type="danger" [dismissible]="false">
+        <svg
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 30"
+          fill="#721c24"
+          focusable="false"
+        >
+          <path
+            d="M16.143 2l5.857 5.858v8.284l-5.857 5.858h-8.286l-5.857-5.858v-8.284l5.857-5.858h8.286zm.828-2h-9.942l-7.029 7.029v9.941l7.029 7.03h9.941l7.03-7.029v-9.942l-7.029-7.029zm-6.471 6h3l-1 8h-1l-1-8zm1.5 12.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"
+          />
+        </svg>
+        <strong> Oops!</strong> We have {{ numErrors }} error(s). Please make
+        some corrections...
+      </ngb-alert>
+    </p>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <p>
+        All fields marked with <span class="required">*</span> are required.
+      </p>
+      <div role="group" aria-labelledby="form-heading">
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="f-name"
+              >First Name <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              formControlName="firstName"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"
+              id="f-name"
+              [attr.aria-describedby]="
+                submitted && f.firstName.errors ? 'fname-error' : null
+              "
+              aria-required="true"
+              autocomplete="given-name"
+            />
+            <div
+              *ngIf="submitted && f.firstName.errors"
+              class="invalid-feedback"
+            >
+              <div id="fname-error" *ngIf="f.firstName.errors.required">
+                First Name is required
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group col">
-          <label for="l-name">Last Name</label>
-          <input
-            type="text"
-            formControlName="lastName"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"
-            id="l-name"
-            aria-describedby="lname-error"
-            aria-required="true"
-          />
-          <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-            <div id="lname-error" *ngIf="f.lastName.errors.required">
-              Last Name is required
+          <div class="form-group col">
+            <label for="l-name"
+              >Last Name <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              formControlName="lastName"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"
+              id="l-name"
+              [attr.aria-describedby]="
+                submitted && f.lastName.errors ? 'lname-error' : null
+              "
+              aria-required="true"
+              autocomplete="family-name"
+            />
+            <div
+              *ngIf="submitted && f.lastName.errors"
+              class="invalid-feedback"
+            >
+              <div id="lname-error" *ngIf="f.lastName.errors.required">
+                Last Name is required
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="e-mail">Email</label>
+        <label for="e-mail">Email <span class="required">*</span></label>
         <input
           type="text"
           formControlName="email"
           class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
           id="e-mail"
+          aria-describedby="email-error1 email-error2"
+          [attr.aria-describedby]="
+            (submitted && f.email.errors.required) ||
+            (submitted && f.email.errors.email)
+              ? 'email-error'
+              : null
+          "
           aria-required="true"
+          autocomplete="email"
         />
-        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-          <div *ngIf="f.email.errors.required">Email is required</div>
+        <div
+          id="email-error"
+          *ngIf="submitted && f.email.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.email.errors.required">
+            Email is required
+          </div>
           <div *ngIf="f.email.errors.email">
             Email must be a valid email address
           </div>
@@ -75,33 +132,56 @@
       </div>
       <div class="form-row">
         <div class="form-group col">
-          <label for="p-word">Password</label>
+          <label for="p-word">Password <span class="required">*</span></label>
           <input
             type="password"
             formControlName="password"
             class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
             id="p-word"
+            [attr.aria-describedby]="
+              (submitted && f.password.errors.required) ||
+              (submitted && f.password.errors.minlength)
+                ? 'pword-error'
+                : null
+            "
             aria-required="true"
+            autocomplete="new-password"
           />
-          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Password is required</div>
+          <div
+            id="pword-error"
+            *ngIf="submitted && f.password.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.password.errors.required">
+              Password is required
+            </div>
             <div *ngIf="f.password.errors.minlength">
               Password must be at least 6 characters
             </div>
           </div>
         </div>
         <div class="form-group col">
-          <label for="confirm-pword">Confirm Password</label>
+          <label for="confirm-pword"
+            >Confirm Password <span class="required">*</span></label
+          >
           <input
             type="password"
             formControlName="confirmPassword"
             class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
             id="confirm-pword"
+            [attr.aria-describedby]="
+              (submitted && f.confirmPassword.errors.required) ||
+              (submitted && f.confirmPassword.errors.mustMatch)
+                ? 'pwconfirmation-error'
+                : null
+            "
             aria-required="true"
+            autocomplete="new-password"
           />
           <div
+            id="pwconfirmation-error"
             *ngIf="submitted && f.confirmPassword.errors"
             class="invalid-feedback"
           >
@@ -122,11 +202,19 @@
           class="form-check-input"
           [ngClass]="{ 'is-invalid': submitted && f.acceptTerms.errors }"
           aria-required="true"
+          [attr.aria-describedby]="
+            submitted && f.acceptTerms.errors ? 'tc-error' : null
+          "
+          autocomplete="off"
         />
-        <label for="accept-terms" class="form-check-label"
-          >Accept Terms & Conditions</label
+        <label for="accept-terms"
+          >Accept Terms & Conditions <span class="required">*</span></label
         >
-        <div *ngIf="submitted && f.acceptTerms.errors" class="invalid-feedback">
+        <div
+          id="tc-error"
+          *ngIf="submitted && f.acceptTerms.errors"
+          class="invalid-feedback"
+        >
           You must accept the Terms & Conditions to register with us.
         </div>
       </div>

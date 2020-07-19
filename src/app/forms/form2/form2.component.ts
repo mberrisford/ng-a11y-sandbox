@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-form2',

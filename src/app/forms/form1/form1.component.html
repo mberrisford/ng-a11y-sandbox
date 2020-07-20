@@ -107,16 +107,16 @@
           class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
           id="e-mail"
-          aria-describedby="email-error1 email-error2"
-          [attr.aria-describedby]="
-            (submitted && f.email.errors.required) ||
-            (submitted && f.email.errors.email)
-              ? 'email-error'
-              : null
-          "
           aria-required="true"
           autocomplete="email"
+          aria-describedby="email-error"
         />
+        <!-- [attr.aria-describedby]="
+        (submitted && f.email.errors.required) ||
+        (submitted && f.email.errors.email)
+          ? 'email-error'
+          : null
+      " -->
         <div
           id="email-error"
           *ngIf="submitted && f.email.errors"
@@ -139,15 +139,16 @@
             class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
             id="p-word"
-            [attr.aria-describedby]="
+            aria-describedby="pword-error"
+            aria-required="true"
+            autocomplete="new-password"
+          />
+          <!-- [attr.aria-describedby]="
               (submitted && f.password.errors.required) ||
               (submitted && f.password.errors.minlength)
                 ? 'pword-error'
                 : null
-            "
-            aria-required="true"
-            autocomplete="new-password"
-          />
+            " -->
           <div
             id="pword-error"
             *ngIf="submitted && f.password.errors"
@@ -171,15 +172,16 @@
             class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
             id="confirm-pword"
-            [attr.aria-describedby]="
+            aria-describedby="pwconfirmation-error"
+            aria-required="true"
+            autocomplete="new-password"
+          />
+          <!-- [attr.aria-describedby]="
               (submitted && f.confirmPassword.errors.required) ||
               (submitted && f.confirmPassword.errors.mustMatch)
                 ? 'pwconfirmation-error'
                 : null
-            "
-            aria-required="true"
-            autocomplete="new-password"
-          />
+            " -->
           <div
             id="pwconfirmation-error"
             *ngIf="submitted && f.confirmPassword.errors"
@@ -202,9 +204,7 @@
           class="form-check-input"
           [ngClass]="{ 'is-invalid': submitted && f.acceptTerms.errors }"
           aria-required="true"
-          [attr.aria-describedby]="
-            submitted && f.acceptTerms.errors ? 'tc-error' : null
-          "
+          aria-describedby="tc-error"
           autocomplete="off"
         />
         <label for="accept-terms"

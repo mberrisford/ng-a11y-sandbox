@@ -60,6 +60,7 @@ export class Form1Component implements OnInit {
     }
     // display form values on success
     this.showSuccess = true;
+    this.showWarning = false;
   }
 
   onReset() {

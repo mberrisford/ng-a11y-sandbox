@@ -4,7 +4,7 @@ nav {
 }
 
 .nav-link {
-  color: white !important;
+  color: whitesmoke !important;
   text-decoration: none;
 }
 
@@ -14,5 +14,5 @@ nav {
 }
 
 .navbar-brand {
-  color: aquamarine;
+  color: whitesmoke;
 }

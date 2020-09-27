@@ -1,15 +1,13 @@
 <div class="app">
-  <!-- Blank top div used for focus top enhancement -->
-  <div id="top"></div>
-  <!--  -->
-  <!-- <div class="middle"> -->
-  <header role="banner">
+  <!-- #top used for focus top enhancement -->
+  <header role="banner" id="top">
     <!-- Skip to main content -->
     <button class="skip-link" (click)="skipTo()">
       Skip to main content
     </button>
-    <!--  -->
-
+    <a class="skip-link" (click)="skipTo()">
+      Skip to main content
+    </a>
     <app-navbar></app-navbar>
   </header>
   <div class="container">

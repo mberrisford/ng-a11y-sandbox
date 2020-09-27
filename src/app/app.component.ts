@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   title = 'A11y Tester';
 
   // Sets focus to first h1 heading
-  public skipTo() {
+  public skipTo () {
     const skipToEl = document.getElementsByTagName('h1')[0];
 
     if (skipToEl) {
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private announcer: LiveAnnouncer
   ) { }
-  ngOnInit() {
+  ngOnInit () {
     this.router.events.subscribe((event) => {
       // Sets focus to top div
       if (event instanceof NavigationEnd) {

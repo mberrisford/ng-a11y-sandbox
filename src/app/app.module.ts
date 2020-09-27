@@ -12,6 +12,7 @@ import { AsideRegionComponent } from './aside-region/aside-region.component';
 import { FormsComponent } from './forms/forms.component';
 import { Form1Component } from './forms/form1/form1.component';
 import { Form2Component } from './forms/form2/form2.component';
+import { NightmareComponent } from './nightmare/nightmare.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { Form2Component } from './forms/form2/form2.component';
     FormsComponent,
     Form1Component,
     Form2Component,
+    NightmareComponent,
   ],
   imports: [
     BrowserModule,

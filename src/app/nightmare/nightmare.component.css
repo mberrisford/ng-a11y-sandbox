@@ -1,0 +1,15 @@
+.fakeH1 {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.wiki-link {
+    position: absolute;
+    top: 0rem;
+    right: 0rem;
+}
+
+.wiki-link a {
+    outline: 0 !important;
+    color: darkcyan;
+}

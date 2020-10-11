@@ -8,7 +8,7 @@ import { MustMatch } from './must-match.validator';
 @Component({
   selector: 'app-form1',
   templateUrl: './form1.component.html',
-  styleUrls: ['./form1.component.css']
+  styleUrls: ['./form1.component.scss']
 })
 export class Form1Component implements OnInit {
   registerForm: FormGroup;
@@ -23,7 +23,7 @@ export class Form1Component implements OnInit {
     private el: ElementRef
   ) { }
 
-  ngOnInit() {
+  ngOnInit () {
     this.registerForm = this.formBuilder.group({
       // title: ['', Validators.required],
       firstName: ['', Validators.required],
@@ -38,9 +38,9 @@ export class Form1Component implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.registerForm.controls; }
+  get f () { return this.registerForm.controls; }
 
-  onSubmit() {
+  onSubmit () {
     this.submitted = true;
 
     // stop here if form is invalid
@@ -63,7 +63,7 @@ export class Form1Component implements OnInit {
     this.showWarning = false;
   }
 
-  onReset() {
+  onReset () {
     this.submitted = false;
     this.showWarning = false;
     this.showSuccess = false;

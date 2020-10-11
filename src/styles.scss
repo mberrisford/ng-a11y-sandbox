@@ -1,3 +1,8 @@
+@import 'variables';
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
 .cdk-visually-hidden {
   border: 0 !important;
   clip: rect(1px, 1px, 1px, 1px) !important;
@@ -33,3 +38,4 @@ a {
   color: blue;
   text-decoration: underline;
 }
+

@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-form2',
   templateUrl: './form2.component.html',
-  styleUrls: ['./form2.component.css']
+  styleUrls: ['./form2.component.scss']
 })
 export class Form2Component implements OnInit {
   contactForm: FormGroup;
@@ -13,7 +13,7 @@ export class Form2Component implements OnInit {
 
   constructor(public fb: FormBuilder) { }
 
-  ngOnInit() {
+  ngOnInit () {
     this.showMessage = false;
     this.submitted = false;
 
@@ -29,7 +29,7 @@ export class Form2Component implements OnInit {
     });
   }
 
-  submitForm(value: any) {
+  submitForm (value: any) {
     console.log(value);
 
     this.submitted = true;

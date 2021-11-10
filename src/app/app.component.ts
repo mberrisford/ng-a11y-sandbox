@@ -17,12 +17,10 @@ export class AppComponent implements OnInit {
     if (skipToEl) {
       skipToEl.setAttribute('tabindex', '-1');
       skipToEl.focus();
-      setTimeout(() => {
-        skipToEl.removeAttribute('tabindex');
-      }, 2000);
-
+      // setTimeout(() => {
+      //  skipToEl.removeAttribute('tabindex');
+      // }, 2000);
     }
-
   }
 
   constructor(
